@@ -1,0 +1,352 @@
+---
+title: "Ciencia de Datos para Políticas Públicas"
+subtitle: "XXXXMódulo 2 - Clase 1: Visualización de datos"
+author: "Pablo Aguirre Hörmann"
+date: "13/01/2022"
+output:
+  xaringan::moon_reader:
+    css: [default, metropolis, metropolis-fonts] 
+    lib_dir: libs
+    nature:
+      #ratio: "16:9"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE, purl = FALSE}
+options(htmltools.dir.version = FALSE)
+library(knitr)
+opts_chunk$set(
+  fig.align="center",  
+  fig.height=4, #fig.width=6,
+  dpi=300, #fig.path='Figs/',
+  cache=T,#, echo=F, warning=F, message=F,
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE,
+  out.width = "90%"
+  )
+library(tidyverse)
+library(hrbrthemes)
+library(fontawesome)
+library(patchwork)
+xaringanExtra::use_scribble(pen_size = 1)
+htmltools::tagList(
+  xaringanExtra::use_clipboard(
+    button_text = "<i class=\"fa fa-clipboard\"></i>",
+    success_text = "<i class=\"fa fa-check\" style=\"color: #90BE6D\"></i>",
+  ),
+  rmarkdown::html_dependency_font_awesome()
+)
+```
+
+# Información general
+
+- 6 clases: dos partes (3 c/u)
+- Office hours (*Zoom*): horario por definir
+- Ayudantías: 1 y 22 de julio
+- Web curso para preguntas fuera de horario de clases
+- Dedicación de tiempo
+- PPTs se subirán al terminar cada clase
+
+---
+
+# Qué, Por qué y Cómo de este curso
+
+### ¿Qué?
+
+- R
+- Visualización de datos
+- Manejo de datos
+- Reportar resultados
+- Inferencia Estadística/Econometría
+
+---
+
+# Qué, Por qué y Cómo de este curso
+
+### ¿Qué?
+
+```{r, out.width='80%',  echo = FALSE, out.width='750px'}
+knitr::include_graphics("../Imagenes/ProcesoDS.png")
+```
+
+---
+
+# Qué, Por qué y Cómo de este curso
+
+## ¿Por qué?
+
+- Análisis/Investigación reproducible
+- Control/Flexibilidad
+
+---
+
+# Reproducibilidad
+
+**Objetivo: realizar un reporte basado en datos de [Datos Públicos](http://datos.gob.cl/)**
+
+---
+
+# Reproducibilidad
+
+**Objetivo: realizar un reporte basado en datos de [Datos Públicos](http://datos.gob.cl/)**
+
+.pull-left[
+
+**<span style="color:red">SIN PROGRAMACIÓN</span>**
+
+1. Ingresar a la web y descargar datos
+2. Limpiar, ordenar, y analizar datos en *MS Excel*
+3. Escribir documento en *MS Word*
+4. Guardar en "algún lado" (ojalá no en "Mis Documentos" o "Descargas")
+
+]
+
+---
+
+# Reproducibilidad
+
+**Objetivo: realizar un reporte basado en datos de [Datos Públicos](http://datos.gob.cl/)**
+
+.pull-left[
+
+**<span style="color:red">SIN PROGRAMACIÓN</span>**
+
+1. Ingresar a la web y descargar datos
+2. Limpiar, ordenar, y analizar datos en *MS Excel*
+3. Escribir documento en *MS Word*
+4. Guardar en "algún lado" (ojalá no en "Mis Documentos" o "Descargas")
+
+]
+
+.pull-right[
+
+**<span style="color:green">CON PROGRAMACIÓN</span>**
+
+1. Crear una carpeta para el proyecto/tarea
+    * `datos`
+    * `gráficos`
+    * `resultados`
+2. Descargar datos desde `R`
+3. Limpiar, ordenar, y analizar datos en `R`
+4. Escribir documento en `R Markdown`
+
+]
+
+---
+
+# Reproducibilidad
+
+**Seis meses después quieres repetir la tarea (o un/a colega)**
+
+---
+
+# Reproducibilidad
+
+**Seis meses después quieres repetir la tarea (o un/a colega)**
+
+.pull-left[
+
+**<span style="color:red">SIN PROGRAMACIÓN</span>**
+
+1. Recordar que se hizo
+2. Ingresar a la web y descargar datos
+3. Limpiar, ordenar, y analizar datos en *MS Excel*
+4. Escribir documento en *MS Word*
+5. Guardar en "algún lado" (ojalá no en "Mis Documentos" o "Descargas")
+
+]
+
+---
+
+# Reproducibilidad
+
+**Seis meses después quieres repetir la tarea (o un/a colega)**
+
+.pull-left[
+
+**<span style="color:red">SIN PROGRAMACIÓN</span>**
+
+1. Recordar que se hizo
+2. Ingresar a la web y descargar datos
+3. Limpiar, ordenar, y analizar datos en *MS Excel*
+4. Escribir documento en *MS Word*
+5. Guardar en "algún lado" (ojalá no en "Mis Documentos" o "Descargas")
+
+]
+
+.pull-right[
+
+**<span style="color:green">CON PROGRAMACIÓN</span>**
+
+1. Ejecutar el código
+
+]
+
+---
+
+# ¿Cómo?
+
+- **RStudio Cloud**
+  * Pero vayan practicando en la versión de escritorio
+
+- **Aprender haciendo**
+  * Demostración - Ejercicio
+  * Todo código que se muestre estará disponible
+
+---
+
+# Dicho eso...
+
+- **Este curso no es suficiente**
+  + Requiere de dedicación y práctica para poder sacar el mayor provecho
+  + Prueba y error
+
+- **Contamos con horas finitas de clases**
+  + Hay detalles que no podremos cubrir y que es importante que puedan revisar/practicar por su parte
+  + Trataré de ir mencionando estos a medida que avancemos
+
+---
+
+# Fuentes valiosas de información 
+
+```{r, echo = FALSE, out.width='450px'}
+knitr::include_graphics("../Imagenes/FuentesInformacion.PNG")
+```
+
+---
+
+# Fuentes valiosas de información 
+
+```{r, echo = FALSE, out.width='600px'}
+knitr::include_graphics("../Imagenes/Libros.PNG")
+```
+
+- https://r4ds.had.co.nz/ | https://es.r4ds.hadley.nz/
+- http://faculty.marshall.usc.edu/gareth-james/ISL/
+
+---
+
+# Además de google...
+
+No se aburran de usar `?nombrefunción`. Ej: `?ggplot`
+
+```{r, echo=FALSE, out.width='500px'}
+knitr::include_graphics("../Imagenes/Help.PNG")
+```
+
+---
+
+# ¿Qué veremos hoy?
+
+- **<span style="color:red">Visualización de datos</span>**
+- Manejo de datos
+- Transformación de datos
+- Reportar resultados
+- Inferencia Estadística/Econometría
+
+---
+
+# Pero antes...
+
+### Recordemos
+
+- Instalar paquetes: `install.packages("nombrepaquete")`
+
+- Cargar paquetes: `library(nombrepaquete)`
+
+- Principales paquetes que usaremos:
+  * `readr`: cargar datos
+  * `tidyr`: lograr datos *tidy* (ordenados)
+  * `dplyr`: "verbos" (funciones) de manipulación de datos
+  * `ggplot2`: visualización
+
+---
+
+# Pero antes...
+
+### Recordemos
+
+- Funciones, `funcion(argumento1, argumento2, ...)`
+  * `log(x = 100, base = 10)`
+  * `log(100, 10)`
+  * `filter(censo, region == "RM")`
+  
+- `%>%`: "Encadenar" código
+  * `censo %>% filter(region == "RM)`
+
+- `+`: "Sumar" capas en `ggplot2`
+
+---
+
+# Imprime pero no guarda
+
+```{r, echo = FALSE}
+library(readr)
+```
+
+```{r}
+read_csv("../datos/datos_mundo.csv")
+```
+
+---
+
+# Guarda pero no imprime
+
+```{r}
+datos_mundo <- read_csv("../datos/datos_mundo.csv")
+```
+
+---
+
+# Guarda e imprime
+
+```{r}
+datos_mundo <- read_csv("../datos/datos_mundo.csv")
+datos_mundo
+```
+
+---
+
+# Guarda e imprime
+
+```{r}
+(datos_mundo <- read_csv("../datos/datos_mundo.csv"))
+```
+
+---
+
+# Mala práctica
+
+```{r, eval = FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2) 
+datos_mundo <- read_csv("datos/datos_mundo.csv")
+ggplot(filter(datos_mundo, anio == 2007), aes(x = ExpVida, y = pob)) + geom_point()
+```
+
+---
+
+# Buena práctica
+
+```{r, eval = FALSE}
+# Cargar paquetes
+library(readr)
+library(dplyr)
+library(ggplot2) 
+
+# Cargar datos
+datos_mundo <- read_csv("/datos/datos_mundo.csv")
+
+# Crear subset con datos del año 2007
+datos_mundo_select <- datos_mundo %>% 
+  filter(anio == 2007)
+
+# Gráfico de ExpVida vs pob
+ggplot(datos_mundo_select, aes(x = ExpVida, y = pob)) + 
+  geom_point()
+```
