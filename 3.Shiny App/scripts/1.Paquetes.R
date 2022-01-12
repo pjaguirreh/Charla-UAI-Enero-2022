@@ -1,0 +1,7 @@
+library(readr)
+library(dplyr)
+library(broom)
+library(stargazer)
+library(ggplot2)
+library(plotly)
+library(chilemapas)

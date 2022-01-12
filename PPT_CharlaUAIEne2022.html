@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introducción a R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Pablo Aguirre Hörmann" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css/metropolis-fonts.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":1,"eraser_size":10,"palette":[]}) })</script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"<i class=\"fa fa-clipboard\"><\/i>","success":"<i class=\"fa fa-check\" style=\"color: #90BE6D\"><\/i>","error":"Press Ctrl+C to Copy"})</script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introducción a R
+## Feria de Ciencia de Datos GobLab UAI
+### Pablo Aguirre Hörmann
+### 13/01/2022
+
+---
+
+
+
+
+# Me presento
+
+- **Docente GobLab UAI**
+  * [Diplomado Ciencia de Datos para Políticas Públicas](https://gobierno.uai.cl/diplomado/diplomado-big-data-politicas-publicas/)
+  * [Automatización de reportes con R Markdown](https://gobierno.uai.cl/curso/automatizacion-de-reportes-con-r/)
+  * [Introducción a R (curso online)](https://uaionline.uai.cl/curso/r-para-ciencias-sociales)
+  
+- **Superintendencia del Medio Ambiente**
+  * División de Seguimiento e Información Ambiental
+  * Inteligencia Ambiental
+
+- **Formación**:
+  * Ingeniero Agrónomo (UC)
+  * Master of Public Policy (UChicago)
+  * Estudiante PhD Ingeniería (UC)
+
+---
+
+# ¿Qué veremos?
+
+- **Introducción**
+  * ¿Qué es R/RStudio?
+  * ¿Por qué usar estas herramientas?
+
+- **Demostraciones**: elecciones diciembre 2021
+  * Análisis de datos
+  * Reporte automático
+  * Dashboard/Aplicación
+
+&lt;br&gt; 
+
+&lt;img src="Imagenes/RServel.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+name: reg
+
+# ¿Qué es R/RStudio?
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+
+# ¿Qué es R?
+
+- **Lenguaje y plataforma**
+  * Lenguaje y ambiente de programación estadística
+  * Herramienta de visualización de datos
+  * &lt;span style="color:red"&gt;**Gratuito**&lt;/span&gt;
+  
+- **Ecosistema**
+  * Muchas aplicaciones e integraciones con otras plataformas
+  * +15.000 librerías gratuitas disponibles
+  
+- **Comunidad**
+  * Millones de usuarios
+  * Muchos y diversos grupos de usuarios a nivel mundial
+
+&lt;br&gt;
+
+.center[
+https://www.r-project.org
+]
+
+---
+
+# ¿Qué es R?
+
+&lt;br&gt;
+
+&lt;img src="Imagenes/R.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# ¿Qué es RStudio?
+
+- **IDE para R**: *Entorno de desarrollo integrado*
+
+- **Editor de código**
+  * Auto-completación
+  * Ayuda de sintaxis
+  * Debugging
+  
+- **Herramientas para distintas tareas**
+  * Visualización
+  * Conexión con otras plataformas
+  * Depuración de código
+  * Manejo del ambiente de trabajo
+
+&lt;br&gt;
+
+.center[
+https://www.rstudio.com
+]
+
+---
+
+# ¿Qué es RStudio?
+
+&lt;br&gt;
+
+&lt;img src="Imagenes/RStudio.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+name: reg
+
+# ¿Por qué usar estas herramientas?
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+
+# ¿Por qué usar estas herramientas?
+
+- Control/Flexibilidad
+
+- Reproducibilidad
+
+
+&lt;img src="Imagenes/Programming.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Control del proceso
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;img src="Imagenes/ProcesoDS.png" width="750px" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Reproducibilidad
+
+**Objetivo: realizar un reporte basado en datos de [Datos Públicos](http://datos.gob.cl/)**
+
+.pull-left[
+
+**&lt;span style="color:red"&gt;SIN PROGRAMACIÓN&lt;/span&gt;**
+
+1. Ingresar a la web y descargar datos
+2. Limpiar, ordenar, y analizar datos en *MS Excel*
+3. Escribir documento en *MS Word*
+4. Guardar en "algún lado" (ojalá no en "Mis Documentos" o "Descargas")
+
+]
+
+---
+
+# Reproducibilidad
+
+**Objetivo: realizar un reporte basado en datos de [Datos Públicos](http://datos.gob.cl/)**
+
+.pull-left[
+
+**&lt;span style="color:red"&gt;SIN PROGRAMACIÓN&lt;/span&gt;**
+
+1. Ingresar a la web y descargar datos
+2. Limpiar, ordenar, y analizar datos en *MS Excel*
+3. Escribir documento en *MS Word*
+4. Guardar en "algún lado" (ojalá no en "Mis Documentos" o "Descargas")
+
+]
+
+.pull-right[
+
+**&lt;span style="color:green"&gt;CON PROGRAMACIÓN&lt;/span&gt;**
+
+1. Crear una carpeta para el proyecto/tarea
+    * `datos`
+    * `gráficos`
+    * `resultados`
+2. Descargar datos desde `R`
+3. Limpiar, ordenar, y analizar datos en `R`
+4. Escribir documento en `R Markdown`
+
+]
+
+---
+
+# Reproducibilidad
+
+**Seis meses después quieres repetir la tarea (o un/a colega)**
+
+.pull-left[
+
+**&lt;span style="color:red"&gt;SIN PROGRAMACIÓN&lt;/span&gt;**
+
+1. Recordar que se hizo
+2. Ingresar a la web y descargar datos
+3. Limpiar, ordenar, y analizar datos en *MS Excel*
+4. Escribir documento en *MS Word*
+5. Guardar en "algún lado" (ojalá no en "Mis Documentos" o "Descargas")
+
+]
+
+---
+
+# Reproducibilidad
+
+**Seis meses después quieres repetir la tarea (o un/a colega)**
+
+.pull-left[
+
+**&lt;span style="color:red"&gt;SIN PROGRAMACIÓN&lt;/span&gt;**
+
+1. Recordar que se hizo
+2. Ingresar a la web y descargar datos
+3. Limpiar, ordenar, y analizar datos en *MS Excel*
+4. Escribir documento en *MS Word*
+5. Guardar en "algún lado" (ojalá no en "Mis Documentos" o "Descargas")
+
+]
+
+.pull-right[
+
+**&lt;span style="color:green"&gt;CON PROGRAMACIÓN&lt;/span&gt;**
+
+1. Ejecutar el código
+
+]
+
+---
+class: inverse, center, middle
+name: reg
+
+# Demostraciones
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+
+# Tres ejemplos
+
+Usando datos obtenidos directamente desde [SERVEL](https://www.servelelecciones.cl/) sobre las elecciones de segunda vuelta presidencial, realizaremos tres demostraciones:
+
+1. Análisis de datos (R/RStudio)
+
+2. Reporte automático (Markdown)
+
+3. Dashboard (Shiny) 
+
+---
+
+# GitHub
+
+.center[https://github.com/pjaguirreh/Charla-UAI-Enero-2022]
+
+---
+class: inverse, center, middle
+name: reg
+
+# Siguientes pasos
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+
+# A tener en cuenta
+
+### Paquetes
+
+Por defecto, `R` tiene un número finito de funcionalidades que se puede extender utilizando un gran número de **paquetes**.
+
+_Instalar paquetes (una vez&lt;sup&gt;1&lt;/sup&gt;)_:
+
+`install.packages("NombrePaquete")`
+
+*Cargar paquetes (cada vez que se abra R/RStudio)*:
+
+`library("NombrePaquete")`
+
+.pull-left[.footnote[&lt;sup&gt;1&lt;/sup&gt; *En realidad, cada cierto tiempo uno querrá instalar (o actualizar) ciertos paquetes para acceder a nuevas versiones*.]]
+
+---
+
+# Fuentes valiosas de información 
+
+&lt;img src="Imagenes/FuentesInformacion.PNG" width="450px" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fuentes valiosas de información 
+
+&lt;img src="Imagenes/Libros.PNG" width="600px" style="display: block; margin: auto;" /&gt;
+
+- https://r4ds.had.co.nz/ | https://es.r4ds.hadley.nz/
+- http://faculty.marshall.usc.edu/gareth-james/ISL/
+
+---
+
+# Además de google...
+
+No se aburran de usar `?nombrefunción`. Ej: `?ggplot`
+
+&lt;img src="Imagenes/Help.PNG" width="500px" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse, center, middle
+name: reg
+
+# Oferta académica GobLab UAI
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=796px&gt;&lt;/html&gt;
+
+---
+
+# Introducción a R
+
+&lt;br&gt;
+
+&lt;img src="Imagenes/introR.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Automatización de Reportes
+
+&lt;br&gt;
+
+&lt;img src="Imagenes/autoR.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Diplomado Cs. Datos PP
+
+&lt;br&gt;
+
+&lt;img src="Imagenes/DipCsDatos.PNG" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Gracias
+
+- Twitter: [@PAguirreH](https://twitter.com/PAguirreH)
+
+- LinkedIn: https://www.linkedin.com/in/pjaguirreh/
+
+- GitHub: https://github.com/pjaguirreh
+
+- Correo: pjaguirreh@gmail.com
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

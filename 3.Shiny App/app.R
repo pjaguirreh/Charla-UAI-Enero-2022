@@ -5,13 +5,11 @@
 # LinkedIn: https://www.linkedin.com/in/pjaguirreh/
 #---------------------------------------------------#
 
+# Definir ruta de trabajo (esto dependerá de donde tengan los archivos en su PC)
+setwd("../3.Shiny App")
+
 # Cargar librerías
-library(dplyr)
-library(broom)
-library(stargazer)
-library(ggplot2)
-library(plotly)
-library(chilemapas)
+source("scripts/1.Paquetes.R", encoding = "UTF-8")
 
 # Cargar datos
 datos_votaciones_pob <- read_csv("../0.datos/BBDDComuna.csv")
@@ -20,6 +18,8 @@ datos_votaciones_pob <- read_csv("../0.datos/BBDDComuna.csv")
 ## Interfaz de ususario ##
 ##########################
 
+# ACÁ SE DEFINE LA DISTRIBUCIÓN QUE TENDRÁ LA "APP"
+
 ui <- fluidPage(
   
   titlePanel("Nivel de participación (% del padrón) vs Pobreza por ingreso (%)"),
@@ -27,7 +27,7 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       
-      # Barra de selección de region
+      # Barra de selección de región (menú desplegable)
       selectInput("region",
                   "Seleccione una región:",
                   sort(unique(datos_votaciones_pob$region)),
@@ -40,6 +40,7 @@ ui <- fluidPage(
       )
     ,
     
+    # Acá se define el orden de cada objeto de la "app"
     mainPanel(
       h4("Gráfico: Cada punto es una comuna"),
       plotlyOutput("graf", height = "450px"),
@@ -58,44 +59,14 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   
-  # Generar gráfico principal
-  output$graf <- renderPlotly({
-      ggplotly(
-        datos_votaciones_pob %>% 
-          filter(region == input$region) %>% 
-          ggplot(aes(x = per_pob2020, y = participacion, label = com_nom)) +
-          geom_point(size = 1, col = "grey") +
-          geom_smooth(method = "lm", se = FALSE, col = "red") +
-          theme_minimal() +
-          labs(x = "% Pobreza 2020 (ingresos)",
-               y = "% de participación")
-      )
-  })
+  # Generar gráfico entre participación y pobreza
+  source("scripts/2.Grafico.R", encoding = "UTF-8", local = T)
   
-  output$regresion <- renderUI({
-    HTML(
-    datos_votaciones_pob %>% 
-      filter(region == input$region) %>% 
-      lm(participacion ~ per_pob2020, data = .) %>%
-      stargazer(type="html", omit.stat = c("adj.rsq", "f", "ser"))
-    )
-    
-  })
+  # Generar tabla de regresión
+  source("scripts/3.Regresion.R", encoding = "UTF-8", local = T)
   
-  output$mapa <- renderPlotly(
-    ggplotly(mapa_comunas %>% 
-               mutate(codigo_comuna = as.numeric(codigo_comuna)) %>% 
-               left_join(datos_votaciones_pob, by = c("codigo_comuna" = "cod_casen")) %>% 
-               filter(com_nom != "ISLA DE PASCUA") %>% 
-               filter(region == input$region) %>% 
-               ggplot(aes(geometry = geometry, 
-                          fill = participacion)) +
-               geom_sf() +
-               scale_fill_gradientn(name = "Participación", colours = c("red", "green")) +
-               theme_minimal() +
-               labs(x = NULL, y = NULL)
-    )
-  )
+  # Generar mapa
+  source("scripts/4.Mapa.R", encoding = "UTF-8", local = T)
   
 }
 

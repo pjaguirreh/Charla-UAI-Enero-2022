@@ -1,130 +1,83 @@
----
-title: "Elecciones presidenciales 2021"
-subtitle: "Análisis de participación electoral"
-author: "Pablo Javier Aguirre Hörmann"
-output:
-  html_document:
-    toc: true
-    toc_float: true
-    highlight: zenburn
-    theme: journal
-  html_notebook: default
----
+#---------------------------------------------------#
+# AUTOR: Pablo Javier Aguirre Hörmann
+# GitHub: https://github.com/pjaguirreh
+# Twitter: @PAguirreH
+# LinkedIn: https://www.linkedin.com/in/pjaguirreh/
+#---------------------------------------------------#
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, 
-                      warning = FALSE, 
-                      error = FALSE, 
-                      message = FALSE,
-                      fig.align = "center")
-```
+# Definir ruta de trabajo (esto dependerá de donde tengan los archivos en su PC)
+setwd("../1.Análisis")
 
 # Cargar paquetes
-
-```{r}
 library(readr) # Cargar datos
 library(dplyr) # Manejo de datos
 library(ggplot2) # Visualización de datos
-library(stargazer) # Reportar tabla de regresión
+library(stargazer) # Reportar tabla de regresión en archivo output
+library(broom) # Reportar resultados de regresión en R
 library(chilemapas) # Mapas de Chile
-```
 
-# Datos a utilizar
-
-Usaremos el archivo `BBDDComuna.csv` el cual se construyó con datos tanto del SERVEL como del Ministerio de Desarrollo Social (ver script `0.CrearDatosEleccionesPresidente2021.R` en la carpeta `datos`).
-
-```{r}
+# Cargar datos
 datos_votaciones_pob <- read_csv("../0.datos/BBDDComuna.csv")
+
+# Analizar datos disponibles
 glimpse(datos_votaciones_pob)
-```
 
-Esta base de datos tiene información **desagregada a nivel de comuna** para la votación de segunda vuelta de presidentes de Chile que se realizó el mes de diciembre. Se incluye también información a nivel de comuna sobre el total del padrón y el nivel de pobreza (ingresos).
-
-# Distribución en la participación electoral
-
-```{r}
+# Distribución en los niveles de participación (histograma)
 datos_votaciones_pob %>% 
   ggplot(aes(x = participacion)) +
   geom_histogram(binwidth = 0.01, col = "black") +
   theme_minimal()
-```
 
-El siguiente `boxplot` muestra como se distribuyen los niveles de participación a nivel de comuna para cada región del país.
-
-```{r}
+# Distribución en los niveles de participación por región (boxplot)
 datos_votaciones_pob %>% 
   ggplot(aes(y = region, x = participacion)) +
   geom_boxplot() +
   theme_minimal() +
   labs(y = NULL)
-```
 
-A continuación se muestra la comuna con más y menos participación en la elección.
-
-```{r}
+# Comunas con mayor y menor participación
 datos_votaciones_pob %>% 
   arrange(-participacion) %>% 
   slice(c(1,346)) %>% 
   select(region, com_nom, participacion)
-```
 
-# Distribución en la pobreza (ingresos)
-
-```{r}
+# Distribución en los niveles de pobreza por comuna (histograma)
 datos_votaciones_pob %>% 
   ggplot(aes(x = per_pob2020)) +
   geom_histogram(binwidth = 0.01, col = "black") +
   theme_minimal()
-```
 
-El siguiente `boxplot` muestra como se distribuyen los niveles de pobreza a nivel de comuna para cada región del país.
-
-```{r}
+# Distribución en los niveles de pobreza por región (boxplot)
 datos_votaciones_pob %>% 
   ggplot(aes(y = region, x = per_pob2020)) +
   geom_boxplot() +
   theme_minimal() +
   labs(y = NULL)
-```
 
-A continuación se muestra la comuna con más y menos niveles de pobreza por ingreso.
-
-```{r}
+# Comunas con mayor y menor pobreza
 datos_votaciones_pob %>% 
   filter(!is.na(per_pob2020)) %>% 
   arrange(per_pob2020) %>% 
   slice(c(1,344)) %>% 
   select(region, com_nom, per_pob2020)
-```
 
-# Relación entre participación y pobreza
-
-Haremos un primer gráfico entre el nivel de pobreza (`per_pob2020`) y la participación electoral (`participación`).
-
-```{r}
+# Relación entre participación y pobreza comunal a nivel nacional
 datos_votaciones_pob %>% 
   ggplot(aes(x = per_pob2020, y = participacion)) +
   geom_point(size = 1, col = "grey") +
-  geom_smooth(method = "lm", se = FALSE, col = "red") +
+  geom_smooth(method = "lm", se = FALSE, col = "red") + # Linea de regresión simple
   theme_minimal() +
   labs(x = "% Pobreza 2020 (ingresos)",
        y = "% de participación",
        title = "Cambio en participación según nivel de pobreza",
        subtitle = "A mayores niveles de pobreza por ingreso, menor participación electoral")
-```
 
-## Una regresión para analizar relación
-
-```{r, results='asis'}
+# Regresión simple entre participación y pobreza
 datos_votaciones_pob %>% 
-  lm(participacion ~ per_pob2020, data = .) %>%
-  stargazer(type = "html", omit.stat = c("adj.rsq", "f", "ser"))
-```
+  lm(participacion ~ per_pob2020, data = .) %>% 
+  tidy()
 
-
-## Cómo varía por región
-
-```{r}
+# Relación entre participación y pobreza comunal a nivel regional
 datos_votaciones_pob %>% 
   ggplot(aes(x = per_pob2020, y = participacion)) +
   geom_point(size = 1, col = "grey") +
@@ -135,22 +88,18 @@ datos_votaciones_pob %>%
        y = "% de participación",
        title = "Cambio en participación según nivel de pobreza",
        subtitle = "Existen distintas relaciones a través de las regiones")
-```
 
-# Mapa
-
-```{r}
+# Unir datos de pobreza y participación a "shapefile" de mapa de Chile
 datos_mapa <- mapa_comunas %>% 
   mutate(codigo_comuna = as.numeric(codigo_comuna)) %>% 
   left_join(datos_votaciones_pob, by = c("codigo_comuna" = "cod_casen")) %>% 
   filter(com_nom != "ISLA DE PASCUA") 
 
+# Generar mapa
 datos_mapa %>% 
-  ggplot(aes(geometry = geometry, fill = participacion)) +
+  ggplot(aes(geometry = geometry, 
+             fill = participacion)) +
   geom_sf(lwd = 0, colour = NA) +
   scale_fill_gradientn(name = "Participación", colours = c("red", "green")) +
   theme_minimal() +
   labs(x = NULL, y = NULL)
-```
-
-

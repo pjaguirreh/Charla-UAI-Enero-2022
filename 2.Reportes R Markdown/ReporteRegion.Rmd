@@ -1,93 +1,66 @@
 ---
-title: "Reporte"
 author: "Pablo Aguirre Hörmann"
-date: "12/25/2021"
 output: 
   officedown::rdocx_document:
     reference_docx: Formato.docx
 params:
-    reg: DE VALPARAISO
+    reg: METROPOLITANA DE SANTIAGO
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
-
-library(readr)
-library(dplyr)
-library(stringr)
-library(ggplot2)
 library(flextable)
-library(officedown)
-library(chilemapas)
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, 
+                      message = FALSE,
+                      tab.cap.style = "TabCaption",
+                      tab.cap.pre = "Tabla ",
+                      tab.cap.sep = ": ",
+                      fig.cap.style = "FigCaption",
+                      fig.cap.pre = "Figura ",
+                      fig.cap.sep = ": ")
 ```
-
-```{r cars}
-datos_votaciones_pob <- read_csv("../0.datos/BBDDComuna.csv")
-datos_reg <- datos_votaciones_pob %>% 
-  filter(region == params$reg)
-```
-
-El reporte...
 
 ```{r}
-datos_votaciones_pob %>% 
-  group_by(region) %>% 
-  summarise(
-    vot_tot = sum(vot_tot, na.rm = TRUE),
-    padron = sum(padron, na.rm = TRUE),
-    orden_reg = mean(orden_reg)
-  ) %>% 
-  rowwise() %>% 
-  mutate(participacion = paste0(round(vot_tot/padron,3)*100, "%"),
-         participacion = str_replace_all(participacion, "\\.", ","),
-         region = str_remove_all(region, "DE "),
-         region = str_remove_all(region, "DEL "),
-         region = str_to_title(region)) %>% 
-  arrange(orden_reg) %>% 
-  select(-orden_reg) %>% 
-  rename(
-    "Región" = region,
-    "N° de votantes" = vot_tot,
-    "Tamaño del padrón" = padron,
-    "Participación (%)" = participacion
-  ) %>% 
-  flextable() %>% 
-  theme_box() %>% 
-  colformat_num(big.mark = ".", decimal.mark = ",") %>% 
-  width(j = c(1,2,3,4), width = c(2.5,1.3,1.3,1.3)) %>% 
-  fontsize(size = 9, part = "all") %>% 
-  align(align = "center", part = "all") %>% 
-  padding(padding = 0, part = "all")
+source("scripts/1.CargarPaquetes.R", encoding = "UTF-8")
+source("scripts/2.Datos.R", encoding = "UTF-8")
+```
+
+---
+title: Reporte `r reg_tabla`
+date: `r format(Sys.Date(), "%d/%m/%Y")`
+---
+
+Este reporte analiza algunos indicadores de participación electoral en la segunda vuelta presidencial de 2021 para `r reg_tabla`.
+
+La Tabla \@ref(tab:tabresumen) resume los niveles de participación electoral para todas las regiones del país.
+
+```{r, tab.cap = "Participación por región", tab.id = "tabresumen"}
+source("scripts/3.Tabla.R", encoding = "UTF-8")
+tabla
 ```
 
 # Relación entre participación y pobreza
 
-El siguiente gráfico muestra...
+El siguiente gráfico muestra como se relaciona la participación electoral con las tasas de pobreza (por ingreso) a nivel de comuna.
+
+```{r, fig.width=6.5, fig.height=3, fig.cap = "Relación entre nivel de pobreza y de participación electoral"}
+source("scripts/4.Grafico.R", encoding = "UTF-8")
+grafico
+```
 
 ```{r}
-datos_reg %>% 
-  ggplot(aes(x = per_pob2020, y = participacion)) +
-  geom_point(size = 1, col = "grey") +
-  geom_smooth(method = "lm", se = FALSE, col = "red") +
-  theme_minimal() +
-  labs(x = "% Pobreza 2020 (ingresos)",
-       y = "% de participación",
-       title = "Cambio en participación según nivel de pobreza")
+regresion <- datos_reg %>% 
+  lm(participacion ~ per_pob2020, data = .) %>% 
+  tidy()
+
+sign <- ifelse(regresion[2,5][[1]] <= 0.05, 0, 1)
 ```
+
+Al aumentar en un punto porcentual los niveles de pobreza se observa un cambio promedio de `r round(regresion[2,2][[1]], 2)` puntos porcentuales en participación electoral. Esta relación `r ifelse(sign == 1, "es", "no es")` estadísticamente significativa (al 5% de significancia).
 
 # Mapa
 
-```{r}
-mapa_comunas %>% 
-  mutate(codigo_comuna = as.numeric(codigo_comuna)) %>% 
-  left_join(datos_votaciones_pob, by = c("codigo_comuna" = "cod_casen")) %>% 
-  filter(com_nom != "ISLA DE PASCUA") %>% 
-  filter(region == params$reg) %>% 
-  ggplot(aes(geometry = geometry, 
-             fill = participacion)) +
-  geom_sf() +
-  scale_fill_gradientn(name = "Participación", colours = c("red", "green")) +
-  theme_minimal() +
-  labs(x = NULL, y = NULL)
+```{r, fig.cap = paste0("Gráfico de participación - ", reg_tabla)}
+source("scripts/5.Mapa.R")
+mapa
 ```
-

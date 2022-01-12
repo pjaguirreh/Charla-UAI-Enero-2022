@@ -1,6 +1,6 @@
 ---
-title: "Ciencia de Datos para Políticas Públicas"
-subtitle: "XXXXMódulo 2 - Clase 1: Visualización de datos"
+title: "Introducción a R"
+subtitle: "Feria de Ciencia de Datos GobLab UAI"
 author: "Pablo Aguirre Hörmann"
 date: "13/01/2022"
 output:
@@ -22,7 +22,7 @@ opts_chunk$set(
   fig.height=4, #fig.width=6,
   dpi=300, #fig.path='Figs/',
   cache=T,#, echo=F, warning=F, message=F,
-  echo = TRUE,
+  echo = FALSE,
   message = FALSE,
   warning = FALSE,
   error = FALSE,
@@ -42,51 +42,147 @@ htmltools::tagList(
 )
 ```
 
-# Información general
+# Me presento
 
-- 6 clases: dos partes (3 c/u)
-- Office hours (*Zoom*): horario por definir
-- Ayudantías: 1 y 22 de julio
-- Web curso para preguntas fuera de horario de clases
-- Dedicación de tiempo
-- PPTs se subirán al terminar cada clase
+- **Docente GobLab UAI**
+  * [Diplomado Ciencia de Datos para Políticas Públicas](https://gobierno.uai.cl/diplomado/diplomado-big-data-politicas-publicas/)
+  * [Automatización de reportes con R Markdown](https://gobierno.uai.cl/curso/automatizacion-de-reportes-con-r/)
+  * [Introducción a R (curso online)](https://uaionline.uai.cl/curso/r-para-ciencias-sociales)
+  
+- **Superintendencia del Medio Ambiente**
+  * División de Seguimiento e Información Ambiental
+  * Inteligencia Ambiental
 
----
-
-# Qué, Por qué y Cómo de este curso
-
-### ¿Qué?
-
-- R
-- Visualización de datos
-- Manejo de datos
-- Reportar resultados
-- Inferencia Estadística/Econometría
+- **Formación**:
+  * Ingeniero Agrónomo (UC)
+  * Master of Public Policy (UChicago)
+  * Estudiante PhD Ingeniería (UC)
 
 ---
 
-# Qué, Por qué y Cómo de este curso
+# ¿Qué veremos?
 
-### ¿Qué?
+- **Introducción**
+  * ¿Qué es R/RStudio?
+  * ¿Por qué usar estas herramientas?
 
-```{r, out.width='80%',  echo = FALSE, out.width='750px'}
-knitr::include_graphics("../Imagenes/ProcesoDS.png")
+- **Demostraciones**: elecciones diciembre 2021
+  * Análisis de datos
+  * Reporte automático
+  * Dashboard/Aplicación
+
+<br> 
+
+```{r, out.width = "40%"}
+knitr::include_graphics("Imagenes/RServel.png")
+```
+
+---
+class: inverse, center, middle
+name: reg
+
+# ¿Qué es R/RStudio?
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+
+# ¿Qué es R?
+
+- **Lenguaje y plataforma**
+  * Lenguaje y ambiente de programación estadística
+  * Herramienta de visualización de datos
+  * <span style="color:red">**Gratuito**</span>
+  
+- **Ecosistema**
+  * Muchas aplicaciones e integraciones con otras plataformas
+  * +15.000 librerías gratuitas disponibles
+  
+- **Comunidad**
+  * Millones de usuarios
+  * Muchos y diversos grupos de usuarios a nivel mundial
+
+<br>
+
+.center[
+https://www.r-project.org
+]
+
+---
+
+# ¿Qué es R?
+
+<br>
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics("Imagenes/R.PNG")
 ```
 
 ---
 
-# Qué, Por qué y Cómo de este curso
+# ¿Qué es RStudio?
 
-## ¿Por qué?
+- **IDE para R**: *Entorno de desarrollo integrado*
 
-- Análisis/Investigación reproducible
-- Control/Flexibilidad
+- **Editor de código**
+  * Auto-completación
+  * Ayuda de sintaxis
+  * Debugging
+  
+- **Herramientas para distintas tareas**
+  * Visualización
+  * Conexión con otras plataformas
+  * Depuración de código
+  * Manejo del ambiente de trabajo
+
+<br>
+
+.center[
+https://www.rstudio.com
+]
 
 ---
 
-# Reproducibilidad
+# ¿Qué es RStudio?
 
-**Objetivo: realizar un reporte basado en datos de [Datos Públicos](http://datos.gob.cl/)**
+<br>
+
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics("Imagenes/RStudio.PNG")
+```
+
+---
+class: inverse, center, middle
+name: reg
+
+# ¿Por qué usar estas herramientas?
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+
+# ¿Por qué usar estas herramientas?
+
+- Control/Flexibilidad
+
+- Reproducibilidad
+
+
+```{r, out.width = "80%"}
+knitr::include_graphics("Imagenes/Programming.jpg")
+```
+
+---
+
+# Control del proceso
+
+<br>
+<br>
+<br>
+
+```{r, out.width='90%',  echo = FALSE, out.width='750px'}
+knitr::include_graphics("Imagenes/ProcesoDS.png")
+```
 
 ---
 
@@ -142,12 +238,6 @@ knitr::include_graphics("../Imagenes/ProcesoDS.png")
 
 **Seis meses después quieres repetir la tarea (o un/a colega)**
 
----
-
-# Reproducibilidad
-
-**Seis meses después quieres repetir la tarea (o un/a colega)**
-
 .pull-left[
 
 **<span style="color:red">SIN PROGRAMACIÓN</span>**
@@ -187,34 +277,63 @@ knitr::include_graphics("../Imagenes/ProcesoDS.png")
 ]
 
 ---
+class: inverse, center, middle
+name: reg
 
-# ¿Cómo?
+# Demostraciones
 
-- **RStudio Cloud**
-  * Pero vayan practicando en la versión de escritorio
-
-- **Aprender haciendo**
-  * Demostración - Ejercicio
-  * Todo código que se muestre estará disponible
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
 
 ---
 
-# Dicho eso...
+# Tres ejemplos
 
-- **Este curso no es suficiente**
-  + Requiere de dedicación y práctica para poder sacar el mayor provecho
-  + Prueba y error
+Usando datos obtenidos directamente desde [SERVEL](https://www.servelelecciones.cl/) sobre las elecciones de segunda vuelta presidencial, realizaremos tres demostraciones:
 
-- **Contamos con horas finitas de clases**
-  + Hay detalles que no podremos cubrir y que es importante que puedan revisar/practicar por su parte
-  + Trataré de ir mencionando estos a medida que avancemos
+1. Análisis de datos (R/RStudio)
+
+2. Reporte automático (Markdown)
+
+3. Dashboard (Shiny) 
+
+---
+
+# GitHub
+
+.center[https://github.com/pjaguirreh/Charla-UAI-Enero-2022]
+
+---
+class: inverse, center, middle
+name: reg
+
+# Siguientes pasos
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+
+# A tener en cuenta
+
+### Paquetes
+
+Por defecto, `R` tiene un número finito de funcionalidades que se puede extender utilizando un gran número de **paquetes**.
+
+_Instalar paquetes (una vez<sup>1</sup>)_:
+
+`install.packages("NombrePaquete")`
+
+*Cargar paquetes (cada vez que se abra R/RStudio)*:
+
+`library("NombrePaquete")`
+
+.pull-left[.footnote[<sup>1</sup> *En realidad, cada cierto tiempo uno querrá instalar (o actualizar) ciertos paquetes para acceder a nuevas versiones*.]]
 
 ---
 
 # Fuentes valiosas de información 
 
 ```{r, echo = FALSE, out.width='450px'}
-knitr::include_graphics("../Imagenes/FuentesInformacion.PNG")
+knitr::include_graphics("Imagenes/FuentesInformacion.PNG")
 ```
 
 ---
@@ -222,7 +341,7 @@ knitr::include_graphics("../Imagenes/FuentesInformacion.PNG")
 # Fuentes valiosas de información 
 
 ```{r, echo = FALSE, out.width='600px'}
-knitr::include_graphics("../Imagenes/Libros.PNG")
+knitr::include_graphics("Imagenes/Libros.PNG")
 ```
 
 - https://r4ds.had.co.nz/ | https://es.r4ds.hadley.nz/
@@ -235,118 +354,55 @@ knitr::include_graphics("../Imagenes/Libros.PNG")
 No se aburran de usar `?nombrefunción`. Ej: `?ggplot`
 
 ```{r, echo=FALSE, out.width='500px'}
-knitr::include_graphics("../Imagenes/Help.PNG")
+knitr::include_graphics("Imagenes/Help.PNG")
+```
+
+---
+class: inverse, center, middle
+name: reg
+
+# Oferta académica GobLab UAI
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>
+
+---
+
+# Introducción a R
+
+<br>
+
+```{r, out.width = "100%"}
+knitr::include_graphics("Imagenes/introR.png")
 ```
 
 ---
 
-# ¿Qué veremos hoy?
+# Automatización de Reportes
 
-- **<span style="color:red">Visualización de datos</span>**
-- Manejo de datos
-- Transformación de datos
-- Reportar resultados
-- Inferencia Estadística/Econometría
+<br>
 
----
-
-# Pero antes...
-
-### Recordemos
-
-- Instalar paquetes: `install.packages("nombrepaquete")`
-
-- Cargar paquetes: `library(nombrepaquete)`
-
-- Principales paquetes que usaremos:
-  * `readr`: cargar datos
-  * `tidyr`: lograr datos *tidy* (ordenados)
-  * `dplyr`: "verbos" (funciones) de manipulación de datos
-  * `ggplot2`: visualización
-
----
-
-# Pero antes...
-
-### Recordemos
-
-- Funciones, `funcion(argumento1, argumento2, ...)`
-  * `log(x = 100, base = 10)`
-  * `log(100, 10)`
-  * `filter(censo, region == "RM")`
-  
-- `%>%`: "Encadenar" código
-  * `censo %>% filter(region == "RM)`
-
-- `+`: "Sumar" capas en `ggplot2`
-
----
-
-# Imprime pero no guarda
-
-```{r, echo = FALSE}
-library(readr)
-```
-
-```{r}
-read_csv("../datos/datos_mundo.csv")
+```{r, out.width = "100%"}
+knitr::include_graphics("Imagenes/autoR.jpg")
 ```
 
 ---
 
-# Guarda pero no imprime
+# Diplomado Cs. Datos PP
 
-```{r}
-datos_mundo <- read_csv("../datos/datos_mundo.csv")
+<br>
+
+```{r, out.width = "100%"}
+knitr::include_graphics("Imagenes/DipCsDatos.PNG")
 ```
 
 ---
 
-# Guarda e imprime
+# Gracias
 
-```{r}
-datos_mundo <- read_csv("../datos/datos_mundo.csv")
-datos_mundo
-```
+- Twitter: [@PAguirreH](https://twitter.com/PAguirreH)
 
----
+- LinkedIn: https://www.linkedin.com/in/pjaguirreh/
 
-# Guarda e imprime
+- GitHub: https://github.com/pjaguirreh
 
-```{r}
-(datos_mundo <- read_csv("../datos/datos_mundo.csv"))
-```
-
----
-
-# Mala práctica
-
-```{r, eval = FALSE}
-library(readr)
-library(dplyr)
-library(ggplot2) 
-datos_mundo <- read_csv("datos/datos_mundo.csv")
-ggplot(filter(datos_mundo, anio == 2007), aes(x = ExpVida, y = pob)) + geom_point()
-```
-
----
-
-# Buena práctica
-
-```{r, eval = FALSE}
-# Cargar paquetes
-library(readr)
-library(dplyr)
-library(ggplot2) 
-
-# Cargar datos
-datos_mundo <- read_csv("/datos/datos_mundo.csv")
-
-# Crear subset con datos del año 2007
-datos_mundo_select <- datos_mundo %>% 
-  filter(anio == 2007)
-
-# Gráfico de ExpVida vs pob
-ggplot(datos_mundo_select, aes(x = ExpVida, y = pob)) + 
-  geom_point()
-```
+- Correo: pjaguirreh@gmail.com
