@@ -302,6 +302,10 @@ Usando datos obtenidos directamente desde [SERVEL](https://www.servelelecciones.
 
 .center[https://github.com/pjaguirreh/Charla-UAI-Enero-2022]
 
+```{r, out.width = "100%"}
+knitr::include_graphics("Imagenes/GitHub.png")
+```
+
 ---
 class: inverse, center, middle
 name: reg
