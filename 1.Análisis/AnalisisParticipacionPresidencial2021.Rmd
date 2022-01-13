@@ -53,7 +53,7 @@ El siguiente `boxplot` muestra como se distribuyen los niveles de participación
 
 ```{r}
 datos_votaciones_pob %>% 
-  ggplot(aes(y = region, x = participacion)) +
+  ggplot(aes(y = reorder(region, -orden_reg), x = participacion)) +
   geom_boxplot() +
   theme_minimal() +
   labs(y = NULL)
@@ -81,7 +81,7 @@ El siguiente `boxplot` muestra como se distribuyen los niveles de pobreza a nive
 
 ```{r}
 datos_votaciones_pob %>% 
-  ggplot(aes(y = region, x = per_pob2020)) +
+  ggplot(aes(y = reorder(region, -orden_reg), x = per_pob2020)) +
   geom_boxplot() +
   theme_minimal() +
   labs(y = NULL)

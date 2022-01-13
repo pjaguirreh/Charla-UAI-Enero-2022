@@ -30,7 +30,7 @@ datos_votaciones_pob %>%
 
 # Distribución en los niveles de participación por región (boxplot)
 datos_votaciones_pob %>% 
-  ggplot(aes(y = region, x = participacion)) +
+  ggplot(aes(y = reorder(region, -orden_reg), x = participacion)) +
   geom_boxplot() +
   theme_minimal() +
   labs(y = NULL)
@@ -49,7 +49,7 @@ datos_votaciones_pob %>%
 
 # Distribución en los niveles de pobreza por región (boxplot)
 datos_votaciones_pob %>% 
-  ggplot(aes(y = region, x = per_pob2020)) +
+  ggplot(aes(y = reorder(region, -orden_reg), x = per_pob2020)) +
   geom_boxplot() +
   theme_minimal() +
   labs(y = NULL)
